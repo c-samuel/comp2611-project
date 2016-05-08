@@ -1356,12 +1356,12 @@ csc_be:	beq $s0, $zero, csc_exit # whether num <= 0
 	add $t4, $t6, $s3
 	addi $t4, $t4, -1 # score's bottom right x
 	add $t5, $t7, $s4
-	addi $t5, $t5, -1 # teacher's bottom right y
+	addi $t5, $t5, -1 # score's bottom right y
 
 	addi $sp, $sp, -32
 	sw $t5, 0($sp)
 	sw $t4, 4($sp) 
-	sw $t7, 8($sp) 
+	sw $t7, 8($sp)
 	sw $t6, 12($sp) 
 	sw $t3, 16($sp) 
 	sw $t2, 20($sp) 
@@ -1398,15 +1398,23 @@ csc_be:	beq $s0, $zero, csc_exit # whether num <= 0
 # *****Task5.2: you need to increase the game score by the SV of the score point object in collision with the student.
 # *****Your codes start here
 
-
-
-
-
-
-
-
-
-
+	la $t2, game_score
+	lw $t8, 0($t2) # current game score
+	
+	la $t3, scorepoint_base
+	lw $t3, 0($t3)
+	sub $t3, $s1, $t3 # array index
+	sll $t3, $t3, 2 # memory offset
+	
+	la $t4, scorepoint_sv # address of scorepoint_sv
+	add $t4, $t4, $t3 # address containing the sv
+	lw $t4, 0($t4) # get the SV of the score point object
+	
+	add $a0, $t4, $t8
+	sw $a0, 0($t2) # update game score
+	li $v0, 203
+	syscall
+	
 # *****Your codes end here
 
 	li $a0, 1 
@@ -1623,7 +1631,6 @@ ci_not_intersect:
 ci_exit: jr $ra
 	 
 #*****Your codes end here
-
 
 #--------------------------------------------------------------------
 # procedure: get_time
