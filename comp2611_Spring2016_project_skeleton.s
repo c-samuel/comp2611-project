@@ -1349,15 +1349,27 @@ csc_be:	beq $s0, $zero, csc_exit # whether num <= 0
 #	| RectB.botrigh_y | <-- $sp 
 # *****Your codes start here
 		
+	add $t2, $t0, $s6
+	addi $t2, $t2, -1 # student's bottom right x
+	add $t3, $t1, $s7
+	addi $t3, $t3, -1 # student's bottom right y
+	add $t4, $t6, $s3
+	addi $t4, $t4, -1 # score's bottom right x
+	add $t5, $t7, $s4
+	addi $t5, $t5, -1 # teacher's bottom right y
 
-
-
-
-
-
-
-
+	addi $sp, $sp, -32
+	sw $t5, 0($sp)
+	sw $t4, 4($sp) 
+	sw $t7, 8($sp) 
+	sw $t6, 12($sp) 
+	sw $t3, 16($sp) 
+	sw $t2, 20($sp) 
+	sw $t1, 24($sp) 
+	sw $t0, 28($sp) 
 	
+	jal check_intersection
+
 # *****Your codes end here
 
         # After calling procedure check_intersection, $v0=0 if the student has not intersected the score point object
@@ -1609,7 +1621,7 @@ ci_not_intersect:
 	li $v0, 0 # not intersect
 
 ci_exit: jr $ra
-	 #test
+	 
 #*****Your codes end here
 
 
