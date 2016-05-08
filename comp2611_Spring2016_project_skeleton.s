@@ -996,8 +996,8 @@ move_student_left:
 		lw $s1, 4($s2) # y_loc
 		sub $s0, $s0, $t3 # new x_loc
 		
-		sub $t9, $s0, $s3
-		addi $t9, $t9, 1 # x-coordinate of student's right corner
+		add $t9, $s0, $s3
+		addi $t9, $t9, -1 # x-coordinate of student's right corner
 		slt $t4, $t9, $zero # t4 = 1, if the right corner of student < 0 (fully going over left border)
 		beq $t4, $zero, msl_check_path # not going over border, go to check path
 		sub $s0, $t2, $s3
